@@ -44,12 +44,49 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
+-- Name: extra; Type: TABLE; Schema: public; Owner: freecodecamp
+--
+
+CREATE TABLE public.extra (
+    c1 text,
+    c2 boolean,
+    c3 numeric(10,2) NOT NULL,
+    extra_id integer NOT NULL,
+    name character varying(30)
+);
+
+
+ALTER TABLE public.extra OWNER TO freecodecamp;
+
+--
+-- Name: extra_extra_id_seq; Type: SEQUENCE; Schema: public; Owner: freecodecamp
+--
+
+CREATE SEQUENCE public.extra_extra_id_seq
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER TABLE public.extra_extra_id_seq OWNER TO freecodecamp;
+
+--
+-- Name: extra_extra_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
+--
+
+ALTER SEQUENCE public.extra_extra_id_seq OWNED BY public.extra.extra_id;
+
+
+--
 -- Name: galaxy; Type: TABLE; Schema: public; Owner: freecodecamp
 --
 
 CREATE TABLE public.galaxy (
     galaxy_id integer NOT NULL,
-    name character varying(30),
+    name character varying(30) NOT NULL,
     type character varying(30),
     has_supermassive_black_hole boolean,
     number_of_stars integer,
@@ -199,6 +236,13 @@ ALTER SEQUENCE public.stars_star_id_seq OWNED BY public.star.star_id;
 
 
 --
+-- Name: extra extra_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.extra ALTER COLUMN extra_id SET DEFAULT nextval('public.extra_extra_id_seq'::regclass);
+
+
+--
 -- Name: galaxy galaxy_id; Type: DEFAULT; Schema: public; Owner: freecodecamp
 --
 
@@ -224,6 +268,15 @@ ALTER TABLE ONLY public.planet ALTER COLUMN planet_id SET DEFAULT nextval('publi
 --
 
 ALTER TABLE ONLY public.star ALTER COLUMN star_id SET DEFAULT nextval('public.stars_star_id_seq'::regclass);
+
+
+--
+-- Data for Name: extra; Type: TABLE DATA; Schema: public; Owner: freecodecamp
+--
+
+INSERT INTO public.extra VALUES ('A', true, 10.23, 1, NULL);
+INSERT INTO public.extra VALUES ('A', true, 10.23, 2, NULL);
+INSERT INTO public.extra VALUES ('A', true, 10.23, 3, NULL);
 
 
 --
@@ -254,6 +307,14 @@ INSERT INTO public.moon VALUES (9, 'Titan', 'Gas Giant Moon', true, 5150, 420000
 INSERT INTO public.moon VALUES (10, 'Kepler-22b I', 'Exomoons', false, 1500, 200000.00, 5);
 INSERT INTO public.moon VALUES (11, 'Kepler-22b II', 'Exomoons', false, 1500, 200000.00, 5);
 INSERT INTO public.moon VALUES (12, 'Proxima b I', 'Natural Satellite', false, 800, 60000.00, 6);
+INSERT INTO public.moon VALUES (13, 'Phobos', 'Natural Satellite', false, 22, 9377.00, 2);
+INSERT INTO public.moon VALUES (14, 'Deimo', 'Natural Satellite', false, 12, 23460.00, 2);
+INSERT INTO public.moon VALUES (15, 'Io', 'Volcanic Moon', true, 3643, 421700.00, 3);
+INSERT INTO public.moon VALUES (16, 'Europa', 'Ice Moon', true, 3122, 671000.00, 3);
+INSERT INTO public.moon VALUES (17, 'Ganymede', 'Galilean Moon', false, 5268, 1070400.00, 3);
+INSERT INTO public.moon VALUES (18, 'Callisto', 'Galielean Moon', false, 4820, 1883000.00, 3);
+INSERT INTO public.moon VALUES (19, 'Amalthea', 'Inner Moon', false, 250, 181400.00, 3);
+INSERT INTO public.moon VALUES (20, 'Amalthea', 'Inner Moon', false, 250, 181400.00, 3);
 
 
 --
@@ -271,6 +332,7 @@ INSERT INTO public.planet VALUES (8, 'Rigel I', 'Gas Giant', false, 3, 0.4, 4);
 INSERT INTO public.planet VALUES (9, 'Betelgeuse I', 'Gas Giant', false, 1, 1.3, 3);
 INSERT INTO public.planet VALUES (10, 'Vega II', 'Terrestrial Planets', true, 2, 2.1, 6);
 INSERT INTO public.planet VALUES (11, 'Sun Minor', 'Dwarf Planet', true, 1, 0.9, 1);
+INSERT INTO public.planet VALUES (12, 'Earth', 'Terrestial Planet', true, 1, 1.0, 1);
 
 
 --
@@ -286,6 +348,13 @@ INSERT INTO public.star VALUES (6, 'Vega', 'A-type Main Sequence Star', false, 9
 
 
 --
+-- Name: extra_extra_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
+--
+
+SELECT pg_catalog.setval('public.extra_extra_id_seq', 3, true);
+
+
+--
 -- Name: galaxy_galaxy_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
@@ -296,14 +365,14 @@ SELECT pg_catalog.setval('public.galaxy_galaxy_id_seq', 6, true);
 -- Name: moon_moon_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.moon_moon_id_seq', 12, true);
+SELECT pg_catalog.setval('public.moon_moon_id_seq', 20, true);
 
 
 --
 -- Name: planet_planet_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.planet_planet_id_seq', 11, true);
+SELECT pg_catalog.setval('public.planet_planet_id_seq', 12, true);
 
 
 --
@@ -311,6 +380,22 @@ SELECT pg_catalog.setval('public.planet_planet_id_seq', 11, true);
 --
 
 SELECT pg_catalog.setval('public.stars_star_id_seq', 7, true);
+
+
+--
+-- Name: extra extra_id_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.extra
+    ADD CONSTRAINT extra_id_unique UNIQUE (extra_id);
+
+
+--
+-- Name: extra extra_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.extra
+    ADD CONSTRAINT extra_pkey PRIMARY KEY (extra_id);
 
 
 --
@@ -322,6 +407,14 @@ ALTER TABLE ONLY public.galaxy
 
 
 --
+-- Name: moon moon_id_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.moon
+    ADD CONSTRAINT moon_id_unique UNIQUE (moon_id);
+
+
+--
 -- Name: moon moon_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
@@ -330,11 +423,35 @@ ALTER TABLE ONLY public.moon
 
 
 --
+-- Name: galaxy name_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.galaxy
+    ADD CONSTRAINT name_unique UNIQUE (name);
+
+
+--
+-- Name: planet planet_id_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.planet
+    ADD CONSTRAINT planet_id_unique UNIQUE (planet_id);
+
+
+--
 -- Name: planet planet_pkey; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
 --
 
 ALTER TABLE ONLY public.planet
     ADD CONSTRAINT planet_pkey PRIMARY KEY (planet_id);
+
+
+--
+-- Name: star star_id_unique; Type: CONSTRAINT; Schema: public; Owner: freecodecamp
+--
+
+ALTER TABLE ONLY public.star
+    ADD CONSTRAINT star_id_unique UNIQUE (star_id);
 
 
 --
